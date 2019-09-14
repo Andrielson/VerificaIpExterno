@@ -2,33 +2,32 @@ package tk.andrielson.verificaipexterno;
 
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.databinding.DataBindingUtil;
 
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import com.google.android.material.snackbar.Snackbar;
+
+import tk.andrielson.verificaipexterno.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ActivityMainBinding binding;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        this.binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        this.binding.contentMain.setUltimaVerificacao("14/09/2019 19:30:25");
+        this.binding.contentMain.setUltimoIpv4("10.25.35.65");
+        this.binding.contentMain.setIntervaloVerificacao(10);
+        this.toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(this.binding.toolbar);
     }
 
     @Override
@@ -47,9 +46,19 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Snackbar.make(this.toolbar, "Configurações", Snackbar.LENGTH_SHORT)
+                    .show();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onClickIniciar(View view) {
+        this.binding.contentMain.setFlagEmExecucao(true);
+    }
+
+    public void onClickParar(View view) {
+        this.binding.contentMain.setFlagEmExecucao(false);
     }
 }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity"
     tools:locale="pt-BR"
     tools:showIn="@layout/activity_main">
 
@@ -25,9 +24,10 @@
             android:id="@+id/text_ultima_verificacao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="14/09/2019 17:46:35"
+            android:text="@{ultimaVerificacao}"
             app:layout_constraintStart_toStartOf="@+id/label_ultima_verificacao"
-            app:layout_constraintTop_toBottomOf="@+id/label_ultima_verificacao" />
+            app:layout_constraintTop_toBottomOf="@+id/label_ultima_verificacao"
+            tools:text="14/09/2019 17:46:35" />
 
         <TextView
             android:id="@+id/label_ultimo_ipv4"
@@ -41,15 +41,20 @@
             android:id="@+id/text_ultimo_ipv4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="200.95.213.101"
+            android:text="@{ultimoIpv4}"
             app:layout_constraintStart_toStartOf="@+id/label_ultimo_ipv4"
-            app:layout_constraintTop_toBottomOf="@+id/label_ultimo_ipv4" />
+            app:layout_constraintTop_toBottomOf="@+id/label_ultimo_ipv4"
+            tools:text="200.95.213.101" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/botao_parar"
+            style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:enabled="@{flagEmExecucao}"
+            android:onClick="onClickParar"
             android:text="@string/main_activity_botao_parar"
+            app:icon="@drawable/ic_stop_white_24dp"
             app:layout_constraintBaseline_toBaselineOf="@+id/botao_iniciar"
             app:layout_constraintEnd_toStartOf="@+id/botao_iniciar"
             app:layout_constraintHorizontal_bias="0.5"
@@ -58,10 +63,14 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/botao_iniciar"
+            style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
+            android:enabled="@{!flagEmExecucao}"
+            android:onClick="onClickIniciar"
             android:text="@string/main_activity_botao_iniciar"
+            app:icon="@drawable/ic_play_arrow_white_24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/botao_parar"
@@ -80,7 +89,10 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_minutos"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@{intervaloVerificacao.toString()}"
+                android:inputType="numberDecimal"
+                android:maxLength="4" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,5 +104,17 @@
         <variable
             name="flagEmExecucao"
             type="boolean" />
+
+        <variable
+            name="ultimoIpv4"
+            type="String" />
+
+        <variable
+            name="ultimaVerificacao"
+            type="String" />
+
+        <variable
+            name="intervaloVerificacao"
+            type="Integer" />
     </data>
 </layout>
