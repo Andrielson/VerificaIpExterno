@@ -8,7 +8,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
+        android:padding="32dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:layout_editor_absoluteY="56dp">
 
@@ -17,6 +17,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/main_activity_label_ultima_verificacao"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{ultimaVerificacao}"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/label_ultima_verificacao"
             app:layout_constraintTop_toBottomOf="@+id/label_ultima_verificacao"
             tools:text="14/09/2019 17:46:35" />
@@ -33,7 +36,10 @@
             android:id="@+id/label_ultimo_ipv4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:text="@string/main_activity_label_ultimo_ipv4"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/text_ultima_verificacao"
             app:layout_constraintTop_toBottomOf="@+id/text_ultima_verificacao" />
 
@@ -42,6 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{ultimoIpv4}"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/label_ultimo_ipv4"
             app:layout_constraintTop_toBottomOf="@+id/label_ultimo_ipv4"
             tools:text="200.95.213.101" />
@@ -51,6 +58,7 @@
             style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:enabled="@{flagEmExecucao}"
             android:onClick="onClickParar"
             android:text="@string/main_activity_botao_parar"
@@ -67,6 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
             android:enabled="@{!flagEmExecucao}"
             android:onClick="onClickIniciar"
             android:text="@string/main_activity_botao_iniciar"
@@ -78,9 +87,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/label_input_intervalo"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:hint="@string/main_activity_label_intervalo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -90,9 +100,9 @@
                 android:id="@+id/input_minutos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{intervaloVerificacao.toString()}"
                 android:inputType="numberDecimal"
-                android:maxLength="4" />
+                android:maxLength="4"
+                android:text="@{intervaloVerificacao.toString()}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
