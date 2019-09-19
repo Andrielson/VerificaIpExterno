@@ -1,5 +1,6 @@
 package tk.andrielson.verificaipexterno;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -55,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(MainActivity.this, ConfiguracoesActivity.class);
+            startActivity(intent);
             Snackbar.make(this.binding.toolbar, "Configurações", Snackbar.LENGTH_SHORT)
                     .show();
             return true;
