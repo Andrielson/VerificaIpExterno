@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Verifica IP Externo</string>
     <string name="action_settings">Configurações</string>
+    <string name="action_about">Sobre</string>
     <string name="main_activity_label_ultima_verificacao">Última verificação:</string>
     <string name="main_activity_label_ultimo_ipv4">Último IPv4:</string>
     <string name="main_activity_botao_parar">PARAR</string>

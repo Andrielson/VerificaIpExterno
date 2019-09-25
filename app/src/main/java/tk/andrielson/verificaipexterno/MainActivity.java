@@ -1,8 +1,8 @@
 package tk.andrielson.verificaipexterno;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,9 +16,6 @@ import com.google.android.material.snackbar.Snackbar;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import tk.andrielson.verificaipexterno.databinding.ActivityMainBinding;
 
@@ -56,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(MainActivity.this, ConfiguracoesActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(MainActivity.this, ConfiguracoesActivity.class);
+//            startActivity(intent);
             Snackbar.make(this.binding.toolbar, "Configurações", Snackbar.LENGTH_SHORT)
                     .show();
             return true;
@@ -74,17 +71,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickIniciar(View view) {
-        this.binding.contentMain.setFlagEmExecucao(true);
         TesteTask task = new TesteTask(this);
         task.execute();
+        final Editable edt = this.binding.contentMain.inputMinutos.getText();
+        if (edt != null) {
+            JobsUtil.ConsultaIpJob.criaService(Integer.parseInt(edt.toString()));
+            this.binding.contentMain.inputMinutos.setEnabled(false);
+            this.binding.contentMain.setFlagEmExecucao(true);
+        }
     }
 
     public void onClickParar(View view) {
+        JobsUtil.ConsultaIpJob.removeService();
+        this.binding.contentMain.inputMinutos.setEnabled(true);
         this.binding.contentMain.setFlagEmExecucao(false);
     }
 
     private void posExecucaoTask(String ipv4) {
-        this.binding.contentMain.setFlagEmExecucao(false);
         this.viewModel.salvaVerificacao(ipv4);
     }
 

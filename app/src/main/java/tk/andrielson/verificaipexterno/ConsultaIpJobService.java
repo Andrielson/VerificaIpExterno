@@ -1,19 +1,26 @@
 package tk.andrielson.verificaipexterno;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.Executors;
 
-final class ConsultaIpJobService extends JobService {
+import tk.andrielson.verificaipexterno.room.AppDatabase;
+import tk.andrielson.verificaipexterno.room.Verificacao;
+import tk.andrielson.verificaipexterno.room.VerificacaoDao;
+
+
+public final class ConsultaIpJobService extends JobService {
 
     private static final String TAG = ConsultaIpJobService.class.getSimpleName();
 
     @Override
     public boolean onStartJob(final JobParameters job) {
-        return false;
+        new Thread(() -> consultaIp(job)).start();
+        return true;
     }
 
     @Override
@@ -22,15 +29,20 @@ final class ConsultaIpJobService extends JobService {
     }
 
     public void consultaIp(final JobParameters params) {
-        if (params != null && params.getExtras() != null) {
+        if (params != null) {
             String ipv4 = ConsultaIpService.pesquisaIpv4();
-            SharedPreferences sharedPreferences = App.getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
-            String ultimo_ipv4 = sharedPreferences.getString("ultimo_ipv4", null);
-            if (!ipv4.equals(ultimo_ipv4)) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("ultimo_ipv4", ipv4);
-                editor.apply();
+            final AppDatabase database = AppDatabase.getInstancia();
+            final VerificacaoDao verificacaoDao = database.verificacaoDao();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
+            Verificacao v = new Verificacao();
+            v.dataHora = sdf.format(new Date());
+            if (ConsultaIpService.testaIpv4(ipv4)) {
+                v.ipv4 = ipv4;
+            } else {
+                v.erro = ipv4;
             }
+            Executors.newSingleThreadExecutor().execute(() -> verificacaoDao.insert(v));
         }
+        jobFinished(params, true);
     }
 }
